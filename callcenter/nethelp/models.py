@@ -15,11 +15,16 @@ class Usuario(models.Model):
         return f"Nombre: {self.nombre}, username: {self.username}, tel: {self.telefono} "
 
 class Agente(models.Model):
+    ESTADO = [
+        ('Disponible', 'Disponible'),
+        ('En llamada', 'En llamada'),
+        ('Pausado', 'Pausado'),
+    ]
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, null=False, blank=False)
     username = models.CharField(max_length=20, unique=True, null=False, blank=False)
     departamento = models.CharField(max_length=50, null=False, blank=False)
-    estado = models.CharField(max_length=15, null=False, blank=False)
+    estado = models.CharField(max_length=140, choices=ESTADO)
     is_admin = models.BooleanField(default=False)
 
     def __str__(self):
