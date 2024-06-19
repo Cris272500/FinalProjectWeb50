@@ -1,23 +1,28 @@
 import logo from './logo.svg';
 import './App.css';
+import Button from './Button';
+import { Content, Usuarios } from './Other';
+import React, {useState} from 'react';
 
 function App() {
+
+  //const titulo = "Suma: ";
+  //let suma = 2 + 2; # se pueden pasar variables
+
+  // en return muestra un contenido HTML
+  // antes del Button iba <Content/>
+  const [count, setCount] = useState(0);
+
+  //const numeros = [1, 2, 3, 4, 5].join(', ');
+
+  const handleClick = () => {
+    setCount(count + 1);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Button onClick={handleClick}/>
+      <p>Numero de veces clickeado: {count}</p>
+      <Usuarios/>
     </div>
   );
 }
