@@ -1,4 +1,5 @@
 import React from "react";
+import styles from './Navbar.module.css';
 
 function Content() {
     const numeros = [];
@@ -39,23 +40,23 @@ function Usuarios() {
 function Navbar() {
 
     return (
-        <nav>
-            <div className="navbar-brand">
-                Aplicacion
-            </div>
-            <ul className="navbar-nav">
-                <li className="nav-item">
-                    <a href="#" className="nav-link">Inicio</a>
+        <nav className={styles.navbar}>
+            
+            <ul className={`${styles.menu}`}>
+                <a href="#" className={`${styles.nav_link} ${styles.welcome_message}`}>NetHelp Connect</a>
+                <li className={styles.nav_item}>
+                    <a href="#" className={styles.nav_link}>Agent</a>
                 </li>
-                <li className="nav-item">
-                    <a href="#" className="nav-link">Register</a>
+                <li className={styles.nav_item}>
+                    <a href="#" className={styles.nav_link}>Customer</a>
                 </li>
-                <li className="nav-item">
-                    <a href="#">Login</a>
+                <li className={styles.nav_item}>
+                    <a href="#" className={styles.nav_link}>Admin</a>
                 </li>
 
             </ul>
         </nav>
+        
     );
 }
 

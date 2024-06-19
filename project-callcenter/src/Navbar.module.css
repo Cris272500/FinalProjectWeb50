@@ -1,0 +1,31 @@
+.navbar {
+    background-color: #0C1844; /* Navy blue */
+    color: #fff; /* White text */
+    padding: 10px;
+    height: auto;
+    border-bottom: 4px solid white;
+  }
+  
+  .menu {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .menu .nav_item {
+    margin: 0 10px;
+  }
+  
+  .menu .nav_item .nav_link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+  }
+  
+
+  .welcome_message {
+    font-size: 30px;
+    color: #fff;
+    transform: translateX(-17rem);
+  }

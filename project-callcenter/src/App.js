@@ -3,7 +3,6 @@ import './App.css';
 import Button from './Button';
 import { Content, Usuarios, Navbar } from './Other';
 import React, {useState} from 'react';
-import './Test.css';
 
 function App() {
 
@@ -19,12 +18,14 @@ function App() {
   const handleClick = () => {
     setCount(count + 1);
   }
+  /* Debajo del Navbar iba eso
+  <Button onClick={handleClick}/>
+  <Usuarios/>
+  <p>Numero de veces clickeado: {count}</p>
+  */
   return (
     <div>
       <Navbar/>
-      <Button onClick={handleClick}/>
-      <p>Numero de veces clickeado: {count}</p>
-      <Usuarios/>
     </div>
   );
 }
