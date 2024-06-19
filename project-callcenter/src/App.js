@@ -1,8 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
 import Button from './Button';
-import { Content, Usuarios } from './Other';
+import { Content, Usuarios, Navbar } from './Other';
 import React, {useState} from 'react';
+import './Test.css';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
   }
   return (
     <div>
+      <Navbar/>
       <Button onClick={handleClick}/>
       <p>Numero de veces clickeado: {count}</p>
       <Usuarios/>

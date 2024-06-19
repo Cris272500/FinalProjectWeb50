@@ -36,4 +36,27 @@ function Usuarios() {
   )
 }
 
-export { Content, Usuarios };
+function Navbar() {
+
+    return (
+        <nav>
+            <div className="navbar-brand">
+                Aplicacion
+            </div>
+            <ul className="navbar-nav">
+                <li className="nav-item">
+                    <a href="#" className="nav-link">Inicio</a>
+                </li>
+                <li className="nav-item">
+                    <a href="#" className="nav-link">Register</a>
+                </li>
+                <li className="nav-item">
+                    <a href="#">Login</a>
+                </li>
+
+            </ul>
+        </nav>
+    );
+}
+
+export { Content, Usuarios, Navbar };
