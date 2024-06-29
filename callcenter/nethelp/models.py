@@ -20,10 +20,19 @@ class Agente(models.Model):
         ('En llamada', 'En llamada'),
         ('Pausado', 'Pausado'),
     ]
+
+    DEPARTAMENTOS = [
+        ('Atencion al cliente', 'Atencion al cliente'),
+        ('Soporte Tecnico', 'Soporte Tecnico'),
+        ('Ventas', 'Ventas'), 
+        ('Desarrollo de productos', 'Desarrollo de productos'),
+        ('Administracion de redes', 'Administracion de redes'),
+    ]
+
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, null=False, blank=False)
     username = models.CharField(max_length=20, unique=True, null=False, blank=False)
-    departamento = models.CharField(max_length=50, null=False, blank=False)
+    departamento = models.CharField(max_length=140, choices=DEPARTAMENTOS)
     estado = models.CharField(max_length=140, choices=ESTADO)
     is_admin = models.BooleanField(default=False)
 
