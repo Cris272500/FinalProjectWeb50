@@ -104,16 +104,25 @@ class Ticket(models.Model):
     def __str__(self):
         return f"{self.asunto}, {self.id_cliente.nombre}, {self.id_agente}"
 
+class ServicioDisponible(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre_servicio = models.CharField(max_length=100, null=False, blank=False, unique=True)
+    descripcion = models.TextField(null=False, blank=False)
+    precio = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False)
+
+    def __str__(self):
+        return f"{self.nombre_servicio} || {self.precio}"
+
 # este modelo es para los servicios que el cliente solicita
 class ServicioCliente(models.Model):
     id = models.AutoField(primary_key=True)
-    nombre_servicio = models.CharField(max_length=100, null=False, blank=False)
-    descripcion = models.TextField(null=False, blank=False)
+    #descripcion = models.TextField(null=False, blank=False)
     fecha_inicio = models.DateTimeField(auto_now_add=True)
     fecha_fin = models.DateTimeField(null=False, blank=False)
     vencido = models.BooleanField(default=False)
-    precio = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False)
-    id_cliente = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    # relaciones con los otros modelos
+    id_servicio = models.ForeignKey(ServicioDisponible, on_delete=models.CASCADE)
+    id_cliente = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='servicios_contratados')
 
     def __str__(self):
         return f"{self.nombre_servicio}, {self.id_cliente.nombre}, {self.fecha_inicio}, {self.fecha_fin}"

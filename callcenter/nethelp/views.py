@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import viewsets
-from .serializer import AgenteSerializer, UsuarioSerializer, AreaSerializer, ServicioSerializer, SubservicioSerializer, TicketSerializer
-from .models import Agente, Usuario, Area, Servicio, Subservicio, Ticket
+from .serializer import AgenteSerializer, UsuarioSerializer, AreaSerializer, ServicioSerializer, SubservicioSerializer, TicketSerializer, ServicioDisponibleSerializer, ServicioClienteSerializer
+from .models import Agente, Usuario, Area, Servicio, Subservicio, Ticket, ServicioDisponible, ServicioCliente
 
 # Create your views here.
 def hola(request):
@@ -31,3 +31,11 @@ class SubservicioView(viewsets.ModelViewSet):
 class TicketView(viewsets.ModelViewSet):
     serializer_class = TicketSerializer
     queryset = Ticket.objects.all()
+
+class ServicioDisponibleView(viewsets.ModelViewSet):
+    serializer_class = ServicioDisponibleSerializer
+    queryset = ServicioDisponible.objects.all()
+
+class ServicioClienteView(viewsets.ModelViewSet):
+    serializer_class = ServicioCliente
+    queryset = ServicioCliente.objects.all()

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Agente, Usuario, Area, Servicio, Subservicio, Ticket
+from .models import Agente, Usuario, Area, Servicio, Subservicio, Ticket, ServicioDisponible, ServicioCliente
 
 class AgenteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,3 +30,13 @@ class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = '__all__'
+
+class ServicioDisponibleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServicioDisponible
+        fields = '__all__'
+
+class ServicioClienteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServicioCliente
+        fields = '__all__'''
