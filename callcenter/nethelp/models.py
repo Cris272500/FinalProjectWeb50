@@ -39,13 +39,30 @@ class Agente(models.Model):
     def __str__(self):
         return f"nombre: {self.nombre} username: {self.username}"
 
-class Solicitante(models.Model):
+# este seria para la parte de solicitantes
+class Area(models.Model):
     id = models.AutoField(primary_key=True)
     nombre_area = models.CharField(max_length=40, null=False, blank=False)
-    servicio_solucion = models.CharField(max_length=50, null=False, blank=False)
 
     def __str__(self):
-        return f"Area: {self.nombre_area}"
+        return f"{self.nombre_area}"
+
+class Servicio(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre_servicio = models.CharField(max_length=100, null=False, blank=False)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name='servicios', default=1)
+
+    def __str__(self):
+        return f"Area: {self.area} || Servicio: {self.nombre_servicio}"
+    
+class Subservicio(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100, null=False, blank=False)
+    servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE, related_name='subservicios')
+
+    def __str__(self):
+        return f"{self.servicio} || Subservicio: {self.nombre}"
+
 
 class Ticket(models.Model):
     ESTADO = [
@@ -58,6 +75,14 @@ class Ticket(models.Model):
         ('Media', 'Media'),
         ('Alta', 'Alta'),
     ]
+    ASIGNACION = [
+        ('Administracion de redes', 'Administracion de redes'),
+        ('Soporte en campo', 'Soporte en campo'),
+        ('Ventas', 'Ventas'),
+        ('Soporte Tecnico', 'Soporte Tecnico'),
+        ('Atencion al cliente', 'Atencion al cliente'),
+    ]
+
     id = models.AutoField(primary_key=True)
     asunto = models.CharField(max_length=100, null=False, blank=False)
     descripcion = models.TextField(null=False, blank=False)
@@ -66,15 +91,21 @@ class Ticket(models.Model):
     fecha_vencimiento = models.DateTimeField(null=False, blank=False)
     estado = models.CharField(max_length=20, choices=ESTADO)
     prioridad = models.CharField(max_length=20, choices=PRIORIDAD)
-    sub_servicio = models.CharField(max_length=100, null=False, blank=False)
-    id_cliente = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    id_agente = models.ForeignKey(Agente, on_delete=models.CASCADE)
-    id_solicitante = models.ForeignKey(Solicitante, on_delete=models.CASCADE)
+    asignacion_actual = models.CharField(max_length=100, choices=ASIGNACION, default='Atencion al cliente')
+
+    # relaciones con otros modelos
+    nombre_area = models.ForeignKey(Area, on_delete=models.CASCADE, related_name='tickets')
+    servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE, related_name='tickets')
+    sub_servicio = models.ForeignKey(Subservicio, on_delete=models.CASCADE, related_name='tickets')
+
+    id_cliente = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='tickets_cliente')
+    id_agente = models.ForeignKey(Agente, on_delete=models.CASCADE, related_name='tickets_agente')
 
     def __str__(self):
         return f"{self.asunto}, {self.id_cliente.nombre}, {self.id_agente}"
 
-class Servicio(models.Model):
+# este modelo es para los servicios que el cliente solicita
+class ServicioCliente(models.Model):
     id = models.AutoField(primary_key=True)
     nombre_servicio = models.CharField(max_length=100, null=False, blank=False)
     descripcion = models.TextField(null=False, blank=False)
