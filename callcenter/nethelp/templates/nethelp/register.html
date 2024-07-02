@@ -1,0 +1,39 @@
+{% extends 'nethelp/layout.html' %}
+
+{% block content %}
+    <h1>Crear Cuenta</h1>
+
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" name="nombre" required>
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="username" required>
+            </div>
+            <div class="mb-3">
+                <label for="numero_cuenta" class="form-label">Número de Cuenta</label>
+                <input type="text" class="form-control" name="numero_cuenta" required>
+            </div>
+            <div class="mb-3">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="text" class="form-control" name="telefono" required>
+            </div>
+            <div class="mb-3">
+                <label for="direccion" class="form-label">Dirección</label>
+                <textarea class="form-control" name="direccion" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" required>
+            </div>
+            <div class="mb-3">
+                <label for="confirmation" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" name="confirmation" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.urls import path, include
 # aqui mandamos todas las vistas de mis modelos serializadas 
 from .views import hola, AgenteView, UsuarioView, AreaView, ServicioView, SubservicioView, TicketView, ServicioDisponibleView, ServicioClienteView
+from .views import register, index
 from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 
@@ -15,6 +16,8 @@ router.register(r'servicios_disponibles', ServicioDisponibleView, 'servicios_dis
 router.register(r'servicioclientes', ServicioClienteView, 'servicioclientes')
 
 urlpatterns = [
+    path('', index, name='index'),
     path("api/v1/", include(router.urls)),
     path('docs/', include_docs_urls(title="CallCenter API")),
+    path('register/', register, name='register'),
 ]
