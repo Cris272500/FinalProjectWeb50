@@ -52,7 +52,7 @@ def register(request):
             )
             user.save()
             messages.success(request, "Registro creado", extra_tags="success")
-            login(request, user)
+            #login(request, user)
             return redirect(reverse("index"))
 
         except IntegrityError:
