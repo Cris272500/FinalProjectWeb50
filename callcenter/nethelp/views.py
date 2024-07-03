@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse,  JsonResponse
 from rest_framework import viewsets
 from .serializer import AgenteSerializer, UsuarioSerializer, AreaSerializer, ServicioSerializer, SubservicioSerializer, TicketSerializer, ServicioDisponibleSerializer, ServicioClienteSerializer
 from .models import Agente, Usuario, Area, Servicio, Subservicio, Ticket, ServicioDisponible, ServicioCliente
 from django.db import IntegrityError
 from django.urls import reverse
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 from django.contrib import messages
 
@@ -20,6 +22,7 @@ def hola(request):
 def index(request):
     return render(request, "nethelp/index.html")
 
+# View para registrar agentes
 def register(request):
     if request.method == "POST":
         nombre = request.POST['nombre']
@@ -61,7 +64,22 @@ def register(request):
     else:
         return render(request, "nethelp/register.html")
 
+# view para Loguear usuarios
+@csrf_exempt
+def login_view(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data.get('username')
+        password = data.get('password')
 
+        usuario = authenticate(request, username=username, password=password)
+
+        print(data)
+        if usuario is not None:
+            login(request, usuario)
+            return JsonResponse({'message': 'Usuario autenticado correctamente', 'id': usuario.id})
+        else:
+            return JsonResponse({'error': 'Credenciales inválidas'}, status=400)
 # Serializadores
 class AgenteView(viewsets.ModelViewSet):
     serializer_class = AgenteSerializer
