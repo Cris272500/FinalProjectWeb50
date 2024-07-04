@@ -6,6 +6,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # serializadores
 class AgenteSerializer(serializers.ModelSerializer):
@@ -33,7 +35,8 @@ class MytokenObtainPairSerializer(TokenObtainPairSerializer):
 class VerifyPasswordSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True, write_only=True)
-    
+
+# Register usuario y login  
 class RegisterUsuarioSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
@@ -71,4 +74,33 @@ class RegisterSerializer(serializers.ModelSerializer):
         # anteriormente
         validated_data.pop('password2')
         user = Agente.objects.create_user(**validated_data)
+        return user
+
+# login para usuario y agente
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only = True)
+    access_token = serializers.CharField(read_only=True)
+    refresh_token = serializers.CharField(read_only=True)
+
+    '''class Meta:
+        model = Agente
+        fields = ('username', 'password', 'access_token', 'refresh_token')'''
+
+
+    def validate(self, data):
+        username = data.get("username")
+        password = data.get("password")
+
+        if username and password:
+            user = authenticate(username=username, password=password)
+            if user is None:
+                raise serializers.ValidationError("Incorrect Credentials")
+        else:
+            raise serializers.ValidationError("Must include username and password")
+        
+        '''refresh = RefreshToken.for_user(user)
+        data['access_token'] = str(refresh.access_token)
+        data['refresh_token'] = str(refresh)'''
+
         return user

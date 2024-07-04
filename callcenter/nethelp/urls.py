@@ -12,4 +12,5 @@ urlpatterns = [
     path("agentes/", views.get_agentes, name="list_agentes"),
     path("verify/", views.verify_password, name="verify_password"),
     path("register_client", views.RegisterUsuarioView.as_view(), name="register_client"),
+    path("login/", views.LoginView.as_view(), name="login"),
 ]

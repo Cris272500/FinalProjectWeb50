@@ -2,13 +2,15 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 
 from .models import Agente
-from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer
+from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer, LoginSerializer
 
+from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MytokenObtainPairSerializer
@@ -22,6 +24,20 @@ class RegisterUsuarioView(generics.CreateAPIView):
     queryset = Agente.objects.all()
     permission_classes = ([AllowAny])
     serializer_class = RegisterUsuarioSerializer
+
+class LoginView(APIView):
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            user = serializer.validated_data
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'username': user.username,
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            })
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
