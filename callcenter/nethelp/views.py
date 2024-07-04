@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 
 from .models import Agente
-from .serializer import AgenteSerializer, MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer
+from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -17,6 +17,11 @@ class RegisterView(generics.CreateAPIView):
     queryset = Agente.objects.all()
     permission_classes = ([AllowAny])
     serializer_class = RegisterSerializer
+
+class RegisterUsuarioView(generics.CreateAPIView):
+    queryset = Agente.objects.all()
+    permission_classes = ([AllowAny])
+    serializer_class = RegisterUsuarioSerializer
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

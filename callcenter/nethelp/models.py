@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission, UserManager
+from .managers import UsuarioManager, AgenteManager
 
 # Create your models here.
 class Usuario(AbstractUser):
@@ -12,23 +13,15 @@ class Usuario(AbstractUser):
     direccion = models.TextField(null=False, blank=False)
     moroso = models.BooleanField(default=False)
 
+    objects = UsuarioManager()
+
     def __str__(self):
         return f"Nombre: {self.nombre}, username: {self.username}, tel: {self.telefono} "
-
-class AgenteManager(UserManager):
-    def create_user(self, username, password=None, **extra_fields):
-        if not username:
-            raise ValueError('The Username field must be set')
-        user = self.model(username=username, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, username, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-
-        return self.model(username, password, **extra_fields)
+    
+    class Meta:
+        verbose_name = 'Usuario'
+        verbose_name_plural = 'Usuarios'
+    
 
 class Agente(AbstractUser):
     ESTADO = [
@@ -61,6 +54,10 @@ class Agente(AbstractUser):
 
     def __str__(self):
         return f"nombre: {self.nombre} username: {self.username}"
+    
+    class Meta:
+        verbose_name = 'Agente'
+        verbose_name_plural = 'Agentes'
 
 # este seria para la parte de solicitantes
 class Area(models.Model):

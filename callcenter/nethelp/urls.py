@@ -11,4 +11,5 @@ urlpatterns = [
     path("dashboard", views.dashboard, name="dashboard"),
     path("agentes/", views.get_agentes, name="list_agentes"),
     path("verify/", views.verify_password, name="verify_password"),
+    path("register_client", views.RegisterUsuarioView.as_view(), name="register_client"),
 ]
