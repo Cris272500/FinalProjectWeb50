@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate
 
-from .models import Agente, Usuario, Ticket
-from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer, AgenteLoginSerializer, TicketSerializer, TicketListSerializer
+from .models import Agente, Usuario, Ticket, ServicioDisponible
+from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer, AgenteLoginSerializer, TicketSerializer, TicketListSerializer, ServicioDisponibleSerializer
 
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
@@ -50,6 +50,13 @@ class TicketCreateView(generics.CreateAPIView):
 class TicketListView(generics.ListAPIView):
     serializer_class = TicketListSerializer
     queryset = Ticket.objects.all()
+
+
+# vistas para los servicios disponibles de la 
+class ServicioDisponibleView(generics.ListAPIView):
+    serializer_class = ServicioDisponibleSerializer
+    queryset = ServicioDisponible.objects.all()
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

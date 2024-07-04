@@ -1,5 +1,5 @@
 # mis modelos
-from .models import Agente, Usuario, Ticket, Servicio, Subservicio, Area
+from .models import Agente, Usuario, Ticket, Servicio, Subservicio, Area, ServicioDisponible
 
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -179,3 +179,8 @@ class TicketListSerializer(serializers.ModelSerializer):
 
     def get_usuario(self, obj):
         return obj.id_cliente.nombre  # Suponiendo que 'nombre' es el campo que quieres mostrar del modelo Usuario
+
+class ServicioDisponibleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServicioDisponible
+        fields = '__all__'
