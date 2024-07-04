@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 
 from .models import Agente, Usuario, Ticket, ServicioDisponible
-from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer, AgenteLoginSerializer, TicketSerializer, TicketListSerializer, ServicioDisponibleSerializer
+from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer, AgenteLoginSerializer, TicketSerializer, TicketListSerializer, ServicioDisponibleSerializer, ServicioClienteSerializer
 
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
@@ -57,6 +57,16 @@ class ServicioDisponibleView(generics.ListAPIView):
     serializer_class = ServicioDisponibleSerializer
     queryset = ServicioDisponible.objects.all()
 
+# crear contratos o planes
+class ServicioClienteView(generics.CreateAPIView):
+    serializer_class = ServicioClienteSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

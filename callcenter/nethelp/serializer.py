@@ -1,5 +1,5 @@
 # mis modelos
-from .models import Agente, Usuario, Ticket, Servicio, Subservicio, Area, ServicioDisponible
+from .models import Agente, Usuario, Ticket, Servicio, Subservicio, Area, ServicioDisponible, ServicioCliente
 
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -9,6 +9,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils import timezone
+
+from datetime import timedelta
 
 # serializadores
 class AgenteSerializer(serializers.ModelSerializer):
@@ -180,7 +182,22 @@ class TicketListSerializer(serializers.ModelSerializer):
     def get_usuario(self, obj):
         return obj.id_cliente.nombre  # Suponiendo que 'nombre' es el campo que quieres mostrar del modelo Usuario
 
+# serializer para mostrar todos los servicios de la empresa
 class ServicioDisponibleSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServicioDisponible
         fields = '__all__'
+
+# serializers para servicios del usuario o contratos
+class ServicioClienteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServicioCliente
+        exclude = ('fecha_fin', )
+    
+    def create(self, validated_data):
+        fecha_inicio = timezone.now()
+        fecha_fin = fecha_inicio + timedelta(days=30)
+
+        validated_data['fecha_fin'] = fecha_fin
+        print(f"Servicio c: {validated_data}")
+        return ServicioCliente.objects.create(**validated_data)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Agente, Usuario, Ticket, ServicioDisponible
+from .models import Agente, Usuario, Ticket, ServicioDisponible, ServicioCliente
 # Register your models here.
 
 '''admin.site.register(Agente)
@@ -33,9 +33,23 @@ class TicketAdmin(admin.ModelAdmin):
 class ServicioDisponibleAdmin(admin.ModelAdmin):
     list_display = ('id', 'nombre_servicio', 'descripcion', 'precio')
 
+class ServicioClienteAdmin(admin.ModelAdmin):
+    list_display = ('id', 'get_cliente_nombre', 'get_servicio_nombre', 'fecha_inicio', 'fecha_fin', 'vencido')
+
+    def get_cliente_nombre(self, obj):
+        return obj.id_cliente.nombre
+    
+    def get_servicio_nombre(self, obj):
+        return obj.id_servicio.nombre_servicio
+    
+    # Definir un nombre más descriptivo para las columnas
+    get_cliente_nombre.short_description = 'Cliente'
+    get_servicio_nombre.short_description = 'Servicio'
+
 #admin.site.register(ServicioCliente)
 
 admin.site.register(Agente, AgenteAdmin)
 admin.site.register(Usuario, UsuarioAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(ServicioDisponible, ServicioDisponibleAdmin)
+admin.site.register(ServicioCliente, ServicioClienteAdmin)

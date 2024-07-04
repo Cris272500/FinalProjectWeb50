@@ -145,5 +145,5 @@ class ServicioCliente(models.Model):
     id_cliente = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='servicios_contratados')
 
     def __str__(self):
-        return f"{self.nombre_servicio}, {self.id_cliente.nombre}, {self.fecha_inicio}, {self.fecha_fin}"
+        return f"ID: {self.id}, Cliente: {self.id_cliente.nombre}, Servicio: {self.id_servicio.nombre_servicio}, Inicio: {self.fecha_inicio}, Fin: {self.fecha_fin}"
 

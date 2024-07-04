@@ -21,4 +21,6 @@ urlpatterns = [
 
     # productos de la empresa / planes pues
     path("servicios/", views.ServicioDisponibleView.as_view(), name="list_servicios"),
+    # para crear contratos o planes
+    path("contrato/", views.ServicioClienteView.as_view(), name="create_contrato"),
 ]
