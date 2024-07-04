@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group, Permission, UserManager
 
 # Create your models here.
 class Usuario(AbstractUser):
@@ -15,7 +15,22 @@ class Usuario(AbstractUser):
     def __str__(self):
         return f"Nombre: {self.nombre}, username: {self.username}, tel: {self.telefono} "
 
-class Agente(models.Model):
+class AgenteManager(UserManager):
+    def create_user(self, username, password=None, **extra_fields):
+        if not username:
+            raise ValueError('The Username field must be set')
+        user = self.model(username=username, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        return self.model(username, password, **extra_fields)
+
+class Agente(AbstractUser):
     ESTADO = [
         ('Disponible', 'Disponible'),
         ('En llamada', 'En llamada'),
@@ -33,9 +48,16 @@ class Agente(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, null=False, blank=False)
     username = models.CharField(max_length=20, unique=True, null=False, blank=False)
+    password = models.CharField(max_length=120, null=False, blank=False) #null=False, blank=False eso va luego
     departamento = models.CharField(max_length=140, choices=DEPARTAMENTOS)
     estado = models.CharField(max_length=140, choices=ESTADO)
     is_admin = models.BooleanField(default=False)
+
+    # Especificar related_name para evitar conflictos
+    groups = models.ManyToManyField(Group, related_name='agentes')
+    user_permissions = models.ManyToManyField(Permission, related_name='agentes')
+
+    objects = AgenteManager()
 
     def __str__(self):
         return f"nombre: {self.nombre} username: {self.username}"

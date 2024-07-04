@@ -16,6 +16,7 @@ class MytokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
+
         token['nombre'] = user.nombre
         token['username'] = user.username
         token['departamento'] = user.departamento
@@ -23,13 +24,18 @@ class MytokenObtainPairSerializer(TokenObtainPairSerializer):
         token['is_admin'] = user.is_admin
         return token
 
+class VerifyPasswordSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True, write_only=True)
+    
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = Agente
-        fields = '__all__'
+        fields = ('nombre', 'username', 'password', 'password2', 'departamento', 'estado', 'is_admin')
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
@@ -38,16 +44,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        agent = Agente.objects.create(
-            nombre=validated_data['nombre'],
-            username=validated_data['username'],
-            password=validated_data['password'],
-            departamento=validated_data['departamento'],
-            estado=validated_data['estado'],
-            is_admin=validated_data['is_admin']
-        )
-        agent.set_password(validated_data['password'])
-        agent.save()
-
-
-        return agent
+        # anteriormente
+        validated_data.pop('password2')
+        user = Agente.objects.create_user(**validated_data)
+        return user
