@@ -1,5 +1,5 @@
 # mis modelos
-from .models import Agente, Usuario
+from .models import Agente, Usuario, Ticket, Servicio, Subservicio, Area
 
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -8,6 +8,7 @@ from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.utils import timezone
 
 # serializadores
 class AgenteSerializer(serializers.ModelSerializer):
@@ -147,3 +148,34 @@ class AgenteLoginSerializer(serializers.Serializer):
         data['refresh_token'] = str(refresh)
 
         return user'''
+
+# serializer para los tickets
+class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = '__all__'
+    
+    # validar que la fecha de vencimiento no este en el pasado
+    def validate_fecha_vencimiento(self, value):
+        if value < timezone.now():
+            raise serializers.ValidationError("La fecha de vencimiento no puede ser en el pasado")
+        return value
+    
+    def create(self, validated_data):
+        print(f"Ticket: {validated_data}")
+        return Ticket.objects.create(**validated_data)
+
+class TicketListSerializer(serializers.ModelSerializer):
+    agente = serializers.SerializerMethodField()
+    usuario = serializers.SerializerMethodField()
+    fecha_creacion = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')  # Ajusta el formato según lo necesites
+
+    class Meta:
+        model = Ticket
+        fields = ('id','agente', 'usuario', 'asunto', 'estado', 'fecha_creacion')
+
+    def get_agente(self, obj):
+        return obj.id_agente.nombre  # Suponiendo que 'nombre' es el campo que quieres mostrar del modelo Agente
+
+    def get_usuario(self, obj):
+        return obj.id_cliente.nombre  # Suponiendo que 'nombre' es el campo que quieres mostrar del modelo Usuario
