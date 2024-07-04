@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate
 
-from .models import Agente
-from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer, LoginSerializer
+from .models import Agente, Usuario
+from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer, AgenteLoginSerializer
 
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
@@ -21,23 +21,18 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
 class RegisterUsuarioView(generics.CreateAPIView):
-    queryset = Agente.objects.all()
+    queryset = Usuario.objects.all()
     permission_classes = ([AllowAny])
     serializer_class = RegisterUsuarioSerializer
 
-class LoginView(APIView):
+class AgenteLoginView(APIView):
     def post(self, request):
-        serializer = LoginSerializer(data=request.data)
+        serializer = AgenteLoginSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            user = serializer.validated_data
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                'username': user.username,
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            })
+            return Response(serializer.validated_data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

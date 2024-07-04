@@ -77,7 +77,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 # login para usuario y agente
-class LoginSerializer(serializers.Serializer):
+class AgenteLoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only = True)
     access_token = serializers.CharField(read_only=True)
@@ -92,6 +92,49 @@ class LoginSerializer(serializers.Serializer):
         username = data.get("username")
         password = data.get("password")
 
+        print(f"user: {username}, p: {password}")
+        
+        if not username or not password:
+            raise serializers.ValidationError("Must include username and password")
+        
+        user = authenticate(request=self.context.get('request'), username=username, password=password)
+        print(f"u: {user}")
+        
+        if not user:
+            raise serializers.ValidationError("Incorrect Credentials")
+        
+        if not isinstance(user, Agente) or not user.is_active:
+            raise serializers.ValidationError("User is not an active agent")
+        
+        # Generar tokens
+        refresh = RefreshToken()
+        refresh['username'] = user.username
+        refresh['id'] = user.id
+
+        print(f"refresh: {refresh}")
+        access = refresh.access_token
+
+        data['refresh'] = str(refresh)
+        data['access'] = str(access)
+
+        return data
+        
+# esto lo hace pero para ambos
+'''class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only = True)
+    access_token = serializers.CharField(read_only=True)
+    refresh_token = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Agente
+        fields = ('username', 'password', 'access_token', 'refresh_token')
+
+
+    def validate(self, data):
+        username = data.get("username")
+        password = data.get("password")
+
         if username and password:
             user = authenticate(username=username, password=password)
             if user is None:
@@ -99,8 +142,8 @@ class LoginSerializer(serializers.Serializer):
         else:
             raise serializers.ValidationError("Must include username and password")
         
-        '''refresh = RefreshToken.for_user(user)
+        refresh = RefreshToken.for_user(user)
         data['access_token'] = str(refresh.access_token)
-        data['refresh_token'] = str(refresh)'''
+        data['refresh_token'] = str(refresh)
 
-        return user
+        return user'''

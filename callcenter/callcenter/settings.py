@@ -177,3 +177,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 
 AUTH_USER_MODEL = 'nethelp.Usuario'
+
+AUTHENTICATION_BACKENDS = (
+    'nethelp.authentication.UsuarioAgenteBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
