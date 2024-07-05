@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast"
 import { AppRouter } from "./router/AppRouter"
 
 export const App = () => {
@@ -5,7 +6,7 @@ export const App = () => {
     <>
     
       <AppRouter />
-
+      <Toaster/>
     </>
   )
 }

@@ -1,4 +1,8 @@
 import { useForm } from "react-hook-form";
+import { toast, Toaster } from "react-hot-toast"
+import {fetchLogin} from '../helpers/api';
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const LoginForm = () => {
   const {
@@ -8,9 +12,22 @@ export const LoginForm = () => {
     watch,
   } = useForm();
 
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+    const response = await fetchLogin(data);
+
+    sessionStorage.setItem("access_token", response.access_token);
+    sessionStorage.setItem("refresh_token", response.refresh_token);
+
+    toast.success('Sesion iniciada');
+
+    navigate("/", { replace: true });
+  };
+
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div class="mb-3">
           <input
             type="text"
@@ -36,7 +53,7 @@ export const LoginForm = () => {
 
         <div class="text-center">
           <button
-            type="button"
+            type="submit"
             class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0"
           >
             Iniciar sesión
