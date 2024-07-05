@@ -19,12 +19,16 @@ export const AppRouter = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Landing />} />
 
+            <Route path="/*" element={<DashboardRoutes />} />
+
             
-            <Route path="/*" element={
+            
+
+            {/* <Route path="/*" element={
                 <PrivateRoute>
                     <DashboardRoutes />
                 </PrivateRoute>
-            } />
+            } /> */}
             
         </Routes>
 

@@ -1,5 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import {fetchRegister} from '../helpers/api';
+
 
 export const RegisterForm = () => {
 
@@ -13,8 +16,16 @@ export const RegisterForm = () => {
   // Watch the password field in order to compare with confirm password field
   const password = watch('password');
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+    const response = await fetchRegister(data);
+
+    navigate('/login', { replace: true });
+    toast.success('Usuario registrado');
+
+    return response;
+
   }
 
   return (
