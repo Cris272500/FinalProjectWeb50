@@ -182,6 +182,19 @@ class TicketListSerializer(serializers.ModelSerializer):
     def get_usuario(self, obj):
         return obj.id_cliente.nombre  # Suponiendo que 'nombre' es el campo que quieres mostrar del modelo Usuario
 
+
+# serializer para mostrar los datos de un ticket en especifico
+class TicketDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = ['id', 'id_agente', 'id_cliente', 'asunto', 'descripcion', 'estado', 'fecha_creacion', 'fecha_actualizacion', 'fecha_vencimiento', 'prioridad', 'asignacion_actual', 'nombre_area', 'servicio', 'sub_servicio']
+
+# serializer para editar, actualizar un ticket
+class TicketDetailUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = ['descripcion', 'estado', 'asignacion_actual', 'nombre_area', 'servicio', 'sub_servicio']
+
 # serializer para mostrar todos los servicios de la empresa
 class ServicioDisponibleSerializer(serializers.ModelSerializer):
     class Meta:

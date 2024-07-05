@@ -18,6 +18,8 @@ urlpatterns = [
     # crear ticket
     path("tickets/create/", views.TicketCreateView.as_view(), name="create_ticket"),
     path("tickets/", views.TicketListView.as_view(), name="list_ticket"),
+    path("tickets/<int:pk>/", views.TicketDetailView.as_view(), name="ticket_detail"), # detalles de un ticket
+    path("tickets/<int:pk>/update/", views.TicketDetailUpdateView.as_view(), name="update_ticket"),
 
     # productos de la empresa / planes pues
     path("servicios/", views.ServicioDisponibleView.as_view(), name="list_servicios"),

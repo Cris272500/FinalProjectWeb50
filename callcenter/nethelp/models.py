@@ -107,7 +107,7 @@ class Ticket(models.Model):
     asunto = models.CharField(max_length=100, null=False, blank=False)
     descripcion = models.TextField(null=False, blank=False)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    fecha_actualizacion = models.DateField(auto_now=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
     fecha_vencimiento = models.DateTimeField(null=False, blank=False)
     estado = models.CharField(max_length=20, choices=ESTADO)
     prioridad = models.CharField(max_length=20, choices=PRIORIDAD)

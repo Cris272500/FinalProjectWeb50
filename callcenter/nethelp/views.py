@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 
 from .models import Agente, Usuario, Ticket, ServicioDisponible
-from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer, AgenteLoginSerializer, TicketSerializer, TicketListSerializer, ServicioDisponibleSerializer, ServicioClienteSerializer
+from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer, AgenteLoginSerializer, TicketSerializer, TicketListSerializer, ServicioDisponibleSerializer, ServicioClienteSerializer, TicketDetailSerializer, TicketDetailUpdateSerializer
 
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
@@ -51,6 +51,13 @@ class TicketListView(generics.ListAPIView):
     serializer_class = TicketListSerializer
     queryset = Ticket.objects.all()
 
+class TicketDetailView(generics.RetrieveAPIView):
+    serializer_class = TicketDetailSerializer
+    queryset = Ticket.objects.all()
+
+class TicketDetailUpdateView(generics.RetrieveUpdateAPIView):
+    serializer_class = TicketDetailUpdateSerializer
+    queryset = Ticket.objects.all()
 
 # vistas para los servicios disponibles de la 
 class ServicioDisponibleView(generics.ListAPIView):

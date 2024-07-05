@@ -18,7 +18,7 @@ class UsuarioAdmin(admin.ModelAdmin):
     list_display = ('id', 'nombre', 'username', 'numero_cuenta', 'telefono', 'direccion', 'moroso')
 
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ('id', 'get_agente_nombre', 'get_usuario_nombre', 'asunto', 'estado', 'fecha_creacion')
+    list_display = ('id', 'get_agente_nombre', 'get_usuario_nombre', 'asunto', 'estado', 'fecha_creacion', 'fecha_actualizacion', 'fecha_vencimiento')
 
     def get_agente_nombre(self, obj):
         return obj.id_agente.nombre
