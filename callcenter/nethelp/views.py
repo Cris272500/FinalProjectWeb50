@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 
 from .models import Agente, Usuario, Ticket, ServicioDisponible
 from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer, AgenteLoginSerializer, TicketSerializer, TicketListSerializer, ServicioDisponibleSerializer, ServicioClienteSerializer, TicketDetailSerializer, TicketDetailUpdateSerializer
+from .serializer import TicketClienteSerialier
 
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
@@ -47,17 +48,40 @@ class TicketCreateView(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
-class TicketListView(generics.ListAPIView):
+class TicketListView(generics.ListAPIView): # muestra todos los tickets
     serializer_class = TicketListSerializer
     queryset = Ticket.objects.all()
 
-class TicketDetailView(generics.RetrieveAPIView):
+class TicketDetailView(generics.RetrieveAPIView): # muestra un ticket
     serializer_class = TicketDetailSerializer
     queryset = Ticket.objects.all()
 
-class TicketDetailUpdateView(generics.RetrieveUpdateAPIView):
+class TicketDetailUpdateView(generics.RetrieveUpdateAPIView): # actualiza un ticket
     serializer_class = TicketDetailUpdateSerializer
     queryset = Ticket.objects.all()
+
+class TicketClienteView(generics.ListAPIView): # muestra todos los tickets de un cliente
+    serializer_class = TicketClienteSerialier
+    # permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        id_cliente = self.kwargs['id_cliente']
+        return Ticket.objects.filter(id_cliente=id_cliente)
+
+class TicketEstadoView(generics.ListAPIView): # muestra los tickets por estado
+    serializer_class = TicketListSerializer
+    
+    def get_queryset(self):
+        estado = self.kwargs['estado']
+        return Ticket.objects.filter(estado=estado)
+
+class TicketAgenteView(generics.ListAPIView): # muestra los tickets de un agente
+    serializer_class = TicketListSerializer
+    # permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        id_agente = self.kwargs['id_agente']
+        return Ticket.objects.filter(id_agente=id_agente)
 
 # vistas para los servicios disponibles de la 
 class ServicioDisponibleView(generics.ListAPIView):

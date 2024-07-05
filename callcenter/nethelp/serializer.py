@@ -195,6 +195,11 @@ class TicketDetailUpdateSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = ['descripcion', 'estado', 'asignacion_actual', 'nombre_area', 'servicio', 'sub_servicio']
 
+class TicketClienteSerialier(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = ['id', 'asunto', 'estado', 'fecha_creacion', 'id_agente']
+
 # serializer para mostrar todos los servicios de la empresa
 class ServicioDisponibleSerializer(serializers.ModelSerializer):
     class Meta:
