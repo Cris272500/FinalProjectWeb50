@@ -34,7 +34,7 @@ class Agente(AbstractUser):
         ('Atencion al cliente', 'Atencion al cliente'),
         ('Soporte Tecnico', 'Soporte Tecnico'),
         ('Ventas', 'Ventas'), 
-        ('Desarrollo de productos', 'Desarrollo de productos'),
+        ('Soporte en campo', 'Soporte en campo'),
         ('Administracion de redes', 'Administracion de redes'),
     ]
 

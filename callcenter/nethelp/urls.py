@@ -20,9 +20,10 @@ urlpatterns = [
     path("tickets/", views.TicketListView.as_view(), name="list_ticket"),
     path("tickets/<int:pk>/", views.TicketDetailView.as_view(), name="ticket_detail"), # detalles de un ticket
     path("tickets/<int:pk>/update/", views.TicketDetailUpdateView.as_view(), name="update_ticket"), # actualizar un ticket
-    path("tickets/cliente/<int:id_cliente>/", views.TicketClienteView.as_view(), name="list_ticket_cliente"), # tickets de un cliente
+    path("tickets/cliente/<str:numero_cuenta>/", views.TicketClienteView.as_view(), name="list_ticket_cliente"), # tickets de un cliente
     path("tickets/estado/<str:estado>/", views.TicketEstadoView.as_view(), name="list_ticket_estado"), # tickets por estado
     path("tickets/agente/<int:id_agente>/", views.TicketAgenteView.as_view(), name="list_ticket_agente"), # tickets por agente
+    path("tickets/<int:pk>/asignar-agente/", views.TicketAsignarAgenteView.as_view(), name="ticket_asignar_agente"), # asignar, reasignar un ticket a un agente
 
     # productos de la empresa / planes pues
     path("servicios/", views.ServicioDisponibleView.as_view(), name="list_servicios"),

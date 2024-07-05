@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 
 from .models import Agente, Usuario, Ticket, ServicioDisponible
 from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer, AgenteLoginSerializer, TicketSerializer, TicketListSerializer, ServicioDisponibleSerializer, ServicioClienteSerializer, TicketDetailSerializer, TicketDetailUpdateSerializer
-from .serializer import TicketClienteSerialier
+from .serializer import TicketClienteSerialier, TicketAsignarAgenteSerializer
 
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
@@ -65,8 +65,13 @@ class TicketClienteView(generics.ListAPIView): # muestra todos los tickets de un
     # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        id_cliente = self.kwargs['id_cliente']
-        return Ticket.objects.filter(id_cliente=id_cliente)
+        numero_cuenta = self.kwargs['numero_cuenta']
+
+        try:
+            usuario = Usuario.objects.get(numero_cuenta=numero_cuenta)
+            return Ticket.objects.filter(id_cliente=usuario)
+        except Usuario.DoesNotExist:
+            return Ticket.objects.none()
 
 class TicketEstadoView(generics.ListAPIView): # muestra los tickets por estado
     serializer_class = TicketListSerializer
@@ -82,6 +87,17 @@ class TicketAgenteView(generics.ListAPIView): # muestra los tickets de un agente
     def get_queryset(self):
         id_agente = self.kwargs['id_agente']
         return Ticket.objects.filter(id_agente=id_agente)
+
+class TicketAsignarAgenteView(generics.UpdateAPIView): # asigna un agente a un ticket
+    serializer_class = TicketAsignarAgenteSerializer
+    queryset = Ticket.objects.all()
+
+    def patch(self, request, *args, **kwargs):
+        ticket = self.get_object()
+        serializer = self.get_serializer(ticket, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 # vistas para los servicios disponibles de la 
 class ServicioDisponibleView(generics.ListAPIView):

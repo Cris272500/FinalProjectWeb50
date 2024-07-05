@@ -206,6 +206,17 @@ class ServicioDisponibleSerializer(serializers.ModelSerializer):
         model = ServicioDisponible
         fields = '__all__'
 
+class TicketAsignarAgenteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = ['id', 'id_agente']
+    
+    def update(self, instance, validated_data):
+        instance.id_agente = validated_data.get('id_agente', instance.id_agente)
+        instance.save()
+        return instance
+    
+
 # serializers para servicios del usuario o contratos
 class ServicioClienteSerializer(serializers.ModelSerializer):
     class Meta:
