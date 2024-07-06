@@ -66,12 +66,11 @@ class TicketClienteView(generics.ListAPIView): # muestra todos los tickets de un
 
     def get_queryset(self):
         numero_cuenta = self.kwargs['numero_cuenta']
-
-        try:
-            usuario = Usuario.objects.get(numero_cuenta=numero_cuenta)
-            return Ticket.objects.filter(id_cliente=usuario)
-        except Usuario.DoesNotExist:
-            return Ticket.objects.none()
+        usuario = Usuario.objects.get(numero_cuenta=numero_cuenta)
+        print(f"Usuario num: {usuario}")
+        data = Ticket.objects.filter(id_cliente=usuario)
+        print(f"Data num: {data}")
+        return data
 
 class TicketEstadoView(generics.ListAPIView): # muestra los tickets por estado
     serializer_class = TicketListSerializer

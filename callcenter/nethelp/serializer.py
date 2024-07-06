@@ -168,27 +168,20 @@ class TicketSerializer(serializers.ModelSerializer):
         return Ticket.objects.create(**validated_data)
 
 class TicketListSerializer(serializers.ModelSerializer):
-    agente = serializers.SerializerMethodField()
-    usuario = serializers.SerializerMethodField()
-    fecha_creacion = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')  # Ajusta el formato según lo necesites
+    agente_nombre = serializers.CharField(source='id_agente.nombre', read_only=True)
+    cliente_nombre = serializers.CharField(source='id_cliente.nombre', read_only=True)
 
     class Meta:
         model = Ticket
-        fields = ('id','agente', 'usuario', 'asunto', 'estado', 'fecha_creacion')
+        fields = ['id', 'asunto', 'estado', 'fecha_creacion', 'agente_nombre', 'cliente_nombre']
 
-    def get_agente(self, obj):
-        return obj.id_agente.nombre  # Suponiendo que 'nombre' es el campo que quieres mostrar del modelo Agente
-
-    def get_usuario(self, obj):
-        return obj.id_cliente.nombre  # Suponiendo que 'nombre' es el campo que quieres mostrar del modelo Usuario
-
-
-# serializer para mostrar los datos de un ticket en especifico
 class TicketDetailSerializer(serializers.ModelSerializer):
+    agente_nombre = serializers.CharField(source='id_agente.nombre', read_only=True)
+    cliente_nombre = serializers.CharField(source='id_cliente.nombre', read_only=True)
+
     class Meta:
         model = Ticket
-        fields = ['id', 'id_agente', 'id_cliente', 'asunto', 'descripcion', 'estado', 'fecha_creacion', 'fecha_actualizacion', 'fecha_vencimiento', 'prioridad', 'asignacion_actual', 'nombre_area', 'servicio', 'sub_servicio']
-
+        fields = ['id', 'asunto', 'descripcion', 'estado', 'fecha_creacion', 'agente_nombre', 'cliente_nombre']
 # serializer para editar, actualizar un ticket
 class TicketDetailUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -196,9 +189,11 @@ class TicketDetailUpdateSerializer(serializers.ModelSerializer):
         fields = ['descripcion', 'estado', 'asignacion_actual', 'nombre_area', 'servicio', 'sub_servicio']
 
 class TicketClienteSerialier(serializers.ModelSerializer):
+    agente_nombre = serializers.CharField(source='id_agente.nombre', read_only=True)
+    cliente_nombre = serializers.CharField(source='id_cliente.nombre', read_only=True)
     class Meta:
         model = Ticket
-        fields = ['id', 'asunto', 'estado', 'fecha_creacion', 'id_agente']
+        fields = ['id', 'asunto', 'estado', 'fecha_creacion', 'id_agente', 'agente_nombre', 'id_cliente', 'cliente_nombre']
 
 # serializer para mostrar todos los servicios de la empresa
 class ServicioDisponibleSerializer(serializers.ModelSerializer):
