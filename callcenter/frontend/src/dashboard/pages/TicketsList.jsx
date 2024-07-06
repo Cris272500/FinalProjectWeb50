@@ -64,10 +64,7 @@ export const TicketsList = () => {
     return (
         <>
             <div className="page-wrapper">
-                <Sidebar />
                 <div className="main-container">
-
-                    <Header />
 
                     <div className="content-wrapper-scroll">
 

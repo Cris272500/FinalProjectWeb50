@@ -1,5 +1,16 @@
 from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework.schemas import get_schema_view
 from django.urls import path
+from rest_framework.documentation import include_docs_urls
+
+API_TITLE = 'NetHelp Connect API'
+API_DESCRIPTION = 'Documentación de la API de NetHelp Connect'
+schema_view = get_schema_view(
+    title=API_TITLE,
+    description=API_DESCRIPTION,
+    version='1.0.0'
+)
+
 
 # mis vistas
 from nethelp import views
@@ -36,4 +47,8 @@ urlpatterns = [
     path("servicios/", views.ServicioDisponibleView.as_view(), name="list_servicios"),
     # para crear contratos o planes
     path("contrato/", views.ServicioClienteView.as_view(), name="create_contrato"),
+
+    path('api/schema/', schema_view),
+    path('docs/', include_docs_urls(title="Nethelp docs")),
+
 ]

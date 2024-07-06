@@ -218,17 +218,39 @@ class TicketAsignarAgenteSerializer(serializers.ModelSerializer):
 
 # serializers para servicios del usuario o contratos
 class ServicioClienteSerializer(serializers.ModelSerializer):
+    numero_de_cuenta = serializers.CharField(write_only=True) 
+
+    print(f"Hola: {numero_de_cuenta}") 
     class Meta:
         model = ServicioCliente
-        exclude = ('fecha_fin', )
+        exclude = ('fecha_fin', 'id_cliente')
     
     def create(self, validated_data):
         fecha_inicio = timezone.now()
         fecha_fin = fecha_inicio + timedelta(days=30)
 
         validated_data['fecha_fin'] = fecha_fin
-        print(f"Servicio c: {validated_data}")
-        return ServicioCliente.objects.create(**validated_data)
+        
+        # Extrae el número de cuenta del validated_data
+        numero_de_cuenta = validated_data.pop('numero_de_cuenta', None)
+        print(f"H: {numero_de_cuenta}")
+
+        if numero_de_cuenta is None:
+            raise serializers.ValidationError("El campo 'numero_de_cuenta' es requerido.")
+
+        # Encuentra el usuario por el número de cuenta
+        try:
+            usuario = Usuario.objects.get(numero_cuenta=numero_de_cuenta)
+        except Usuario.DoesNotExist:
+            raise serializers.ValidationError("Usuario con el número de cuenta proporcionado no encontrado.")
+
+        # Asigna el usuario encontrado al campo id_cliente
+        validated_data['id_cliente'] = usuario
+
+        # Crea la instancia de ServicioCliente con los datos validados
+        servicio_cliente = ServicioCliente.objects.create(**validated_data)
+        return servicio_cliente
+
 
 class UsuarioTicketSerializer(serializers.ModelSerializer):
     class Meta:

@@ -3,144 +3,59 @@ import { Header, Sidebar } from "../components"
 export const Contrato = () => {
     return (
         <>
-            <div class="page-wrapper">
-                <Sidebar />
-                <div class="main-container">
-                    <Header />
+            <div className="page-wrapper">
+                <div className="main-container">
 
-                    <div class="content-wrapper-scroll">
+                    <div className="content-wrapper-scroll">
 
-                        <div class="content-wrapper">
+                        <div className="content-wrapper">
 
-                            <div class="row">
-                                <div class="col-xl-4 col-sm-6 col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="was-validated">
-                                                <label for="validationCustom01" class="form-label">adadad</label>
-                                                <input type="text" class="form-control" id="validationCustom01" value="Mark" required=""/>
-                                                <div class="valid-feedback">Looks good!</div>
-                                            </div>
-                                        </div>
+                            <div className="row">
+                               
+                                <div className="col-sm-6 col-12">
+                                <div classNameName="card-header">
+                                            <div className="card-title">Crear contrato</div>
                                     </div>
-                                </div>
-                                <div class="col-xl-4 col-sm-6 col-12">
-                                    <div class="card">
-                                        <div class="card-body">
+                                    <div className="card">
+                                   
+                                        <div className="card-body">
                                             <div>
-                                                <div class="was-validated">
-                                                    <label for="validationCustom02" class="form-label">Zip</label>
-                                                    <input type="text" class="form-control" id="validationCustom02" required=""/>
-                                                    <div class="invalid-feedback">Please provide a valid zip.</div>
+                                                <div className="was-validated">
+                                                    <label for="validationCustom02" className="form-label">Numero cuenta</label>
+                                                    <input type="text" className="form-control" id="validationCustom02" required=""/>
+                                                    <div className="invalid-feedback">Ingrese el numero de cuenta del usuario</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 col-sm-6 col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="was-validated">
-                                                <label for="validationCustom04" class="form-label">State</label>
-                                                <select class="form-select" id="validationCustom04" required="">
+                                <div className="col-xl-4 col-sm-6 col-12">
+                                    <div className="card">
+                                        <div className="card-body">
+                                            <div className="was-validated">
+                                                <label for="validationCustom04" className="form-label">Plan</label>
+                                                <select className="form-select" id="validationCustom04" required="">
                                                     <option selected="" disabled="" value="">Choose...</option>
-                                                    <option>...</option>
+                                                    <option value="5">NetHelp Max</option>
+                                                    <option value="4">NetHelp Ultra</option>
+                                                    <option value="3">NetHelp Super</option>
+                                                    <option value="2">NetHelp Family</option>
+                                                    <option value="1">NetHelp Express</option>
                                                 </select>
-                                                <div class="invalid-feedback">Please select a valid state.</div>
+                                                <div className="invalid-feedback">Please select a valid state.</div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-12 col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="was-validated">
-                                                <label for="validationTextarea" class="form-label">Textarea</label>
-                                                <textarea class="form-control is-invalid" id="validationTextarea"
-                                                    placeholder="Required example textarea" required=""></textarea>
-                                                <div class="invalid-feedback">Please enter a message in the textarea.</div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div classNameName="col-sm-12 col-12">
+                                    <button type="submit" classNameName="btn btn-primary">Crear contrato</button>
                                 </div>
-                                <div class="col-md-6 col-sm-12 col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="was-validated">
-                                                <label for="validationTextarea2" class="form-label">Textarea</label>
-                                                <textarea class="form-control" id="validationTextarea2"
-                                                    placeholder="Required example textarea"></textarea>
-                                                <div class="valid-feedback">Looks good!</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12 col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="was-validated">
-                                                <input type="file" class="form-control" aria-label="file example" required=""/>
-                                                <div class="invalid-feedback">Example invalid form file feedback</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12 col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="was-validated">
-                                                <input type="file" class="form-control" aria-label="file example"/>
-                                                <div class="valid-feedback">Looks good!</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12 col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="form-check was-validated">
-                                                <input type="checkbox" class="form-check-input" id="validationFormCheck1" required=""/>
-                                                <label class="form-check-label" for="validationFormCheck1">Check this checkbox</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12 col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="form-check was-validated">
-                                                <input type="checkbox" class="form-check-input" id="validationFormCheck2"/>
-                                                <label class="form-check-label" for="validationFormCheck2">Check this checkbox</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12 col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="form-check was-validated">
-                                                <input type="radio" class="form-check-input" id="validationFormCheck3" name="radio-stacked"
-                                                    required=""/>
-                                                <label class="form-check-label" for="validationFormCheck3">Toggle this radio</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12 col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="form-check was-validated">
-                                                <input type="radio" class="form-check-input" id="validationFormCheck4" name="radio-stacked2"/>
-                                                <label class="form-check-label" for="validationFormCheck4">Toggle this radio</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                               
                             </div>
 
                         </div>
 
-                        <div class="app-footer">
+                        <div className="app-footer">
                             <span>© Arise admin 2023</span>
                         </div>
 

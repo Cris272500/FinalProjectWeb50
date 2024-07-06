@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate
 
-from .models import Agente, Usuario, Ticket, ServicioDisponible, Area, Servicio, Subservicio
+from .models import Agente, Usuario, Ticket, ServicioDisponible, Area, Servicio, Subservicio, ServicioCliente
 from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer, AgenteLoginSerializer, TicketSerializer, TicketListSerializer, ServicioDisponibleSerializer, ServicioClienteSerializer, TicketDetailSerializer, TicketDetailUpdateSerializer
 from .serializer import TicketClienteSerialier, TicketAsignarAgenteSerializer, UsuarioTicketSerializer, AgenteTicketSerializer, AreaSerializer, ServicioSerializer, SubservicioSerializer
 
@@ -108,6 +108,7 @@ class ServicioDisponibleView(generics.ListAPIView):
 # crear contratos o planes
 class ServicioClienteView(generics.CreateAPIView):
     serializer_class = ServicioClienteSerializer
+    queryset = ServicioCliente.objects.all()  # Agrega un queryset para la vista
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -115,6 +116,10 @@ class ServicioClienteView(generics.CreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    # Implementa el método get_queryset para evitar el AssertionError
+    def get_queryset(self):
+        return ServicioCliente.objects.all()
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

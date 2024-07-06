@@ -178,17 +178,17 @@ export const CreateTicket = () => {
         try {
             const response = await fetchCreateTicket(data);
             console.log('Ticket creado:', response);
+            toast.success('Ticket creado:', response);
         } catch (error) {
+            toast.error('Error al crear el ticket:', error);
             console.error('Error al crear el ticket:', error);
         }
     };
   return (
     
     <>
-        <div className="page-wrapper">
-            <Sidebar/>
+        <div className="page-wrapper ml-2">
             <div className="main-container">
-                <Header/>
                 <div className="content-wrapper-scroll">
 
                     <div className="content-wrapper">
