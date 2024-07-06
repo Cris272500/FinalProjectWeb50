@@ -25,6 +25,13 @@ urlpatterns = [
     path("tickets/agente/<int:id_agente>/", views.TicketAgenteView.as_view(), name="list_ticket_agente"), # tickets por agente
     path("tickets/<int:pk>/asignar-agente/", views.TicketAsignarAgenteView.as_view(), name="ticket_asignar_agente"), # asignar, reasignar un ticket a un agente
 
+
+    path("tickets/clientes/", views.clientes_list, name="list_clientes"),
+    path("tickets/agentes/", views.agentes_list, name="list_agentes"),
+    path("tickets/areas/", views.areas_list, name="list_areas"),
+    path("tickets/servicios/", views.servicios_list, name="list_servicios"),
+    path("tickets/subservicios/", views.subservicios_list, name="list_subservicios"),
+
     # productos de la empresa / planes pues
     path("servicios/", views.ServicioDisponibleView.as_view(), name="list_servicios"),
     # para crear contratos o planes

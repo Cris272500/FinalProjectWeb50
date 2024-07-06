@@ -165,6 +165,10 @@ class TicketSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         print(f"Ticket: {validated_data}")
+        fecha_creacion = timezone.now()
+        validated_data['fecha_vencimiento'] = fecha_creacion + timedelta(days=4)
+
+
         return Ticket.objects.create(**validated_data)
 
 class TicketListSerializer(serializers.ModelSerializer):
@@ -225,3 +229,27 @@ class ServicioClienteSerializer(serializers.ModelSerializer):
         validated_data['fecha_fin'] = fecha_fin
         print(f"Servicio c: {validated_data}")
         return ServicioCliente.objects.create(**validated_data)
+
+class UsuarioTicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = ['id', 'nombre']  # Ajusta los campos según tus necesidades
+
+class AgenteTicketSerializer(serializers.ModelSerializer):
+    model = Agente
+    fields = ['id', 'nombre']  # Ajusta los campos según tus necesidades
+
+class AreaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Area
+        fields = ['id', 'nombre']  # Ajusta los campos según tus necesidades
+
+class ServicioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Servicio
+        fields = ['id', 'nombre']  # Ajusta los campos según tus necesidades
+
+class SubservicioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subservicio
+        fields = ['id', 'nombre']  # Ajusta los campos según tus necesidades

@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate
 
-from .models import Agente, Usuario, Ticket, ServicioDisponible
+from .models import Agente, Usuario, Ticket, ServicioDisponible, Area, Servicio, Subservicio
 from .serializer import AgenteSerializer, UsuarioSerializer ,MytokenObtainPairSerializer, RegisterSerializer, VerifyPasswordSerializer, RegisterUsuarioSerializer, AgenteLoginSerializer, TicketSerializer, TicketListSerializer, ServicioDisponibleSerializer, ServicioClienteSerializer, TicketDetailSerializer, TicketDetailUpdateSerializer
-from .serializer import TicketClienteSerialier, TicketAsignarAgenteSerializer
+from .serializer import TicketClienteSerialier, TicketAsignarAgenteSerializer, UsuarioTicketSerializer, AgenteTicketSerializer, AreaSerializer, ServicioSerializer, SubservicioSerializer
 
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
@@ -43,8 +43,10 @@ class TicketCreateView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
+        response = Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        print(f"Respuesta: {response}")
+        return response
+    
     def perform_create(self, serializer):
         serializer.save()
 
@@ -153,3 +155,36 @@ def verify_password(request):
         else:
             return Response({"message": "Password is incorrect"}, status=status.HTTP_400_BAD_REQUEST)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def clientes_list(request):
+    clientes = UsuarioTicketSerializer.objects.all()
+    serializer = UsuarioTicketSerializer(clientes, many=True)
+
+    print(f"Clientes: {serializer}")
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def agentes_list(request):
+    agentes = Agente.objects.all()
+    serializer = AgenteTicketSerializer(agentes, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def areas_list(request):
+    areas = Area.objects.all()
+    serializer = AreaSerializer(areas, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def servicios_list(request):
+    servicios = Servicio.objects.all()
+    serializer = ServicioSerializer(servicios, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def subservicios_list(request):
+    subservicios = Subservicio.objects.all()
+    serializer = SubservicioSerializer(subservicios, many=True)
+    return Response(serializer.data)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Agente, Usuario, Ticket, ServicioDisponible, ServicioCliente
+from .models import Agente, Usuario, Ticket, ServicioDisponible, ServicioCliente, Subservicio, Servicio
 # Register your models here.
 
 '''admin.site.register(Agente)
@@ -46,6 +46,12 @@ class ServicioClienteAdmin(admin.ModelAdmin):
     get_cliente_nombre.short_description = 'Cliente'
     get_servicio_nombre.short_description = 'Servicio'
 
+class ServicioAdmin(admin.ModelAdmin):
+    list_display = ('id', 'nombre_servicio', 'area')
+
+class SubservicioAdmin(admin.ModelAdmin):
+    list_display = ('id', 'servicio', 'nombre')
+
 #admin.site.register(ServicioCliente)
 
 admin.site.register(Agente, AgenteAdmin)
@@ -53,3 +59,5 @@ admin.site.register(Usuario, UsuarioAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.register(ServicioDisponible, ServicioDisponibleAdmin)
 admin.site.register(ServicioCliente, ServicioClienteAdmin)
+admin.site.register(Servicio, ServicioAdmin)
+admin.site.register(Subservicio, SubservicioAdmin)
