@@ -39,10 +39,8 @@ export const Servicios = () => {
 							<div className="col-sm-12 col-12">
 								<div className="card">
 									<div className="card-header">
-										<div className="card-title">Items Added</div>
-										<div className="ml-auto">
-											<a href="products.html" className="btn btn-dark">Back to Products</a>
-										</div>
+										<div className="card-title">Servicios disponibles</div>
+										
 									</div>
 									<div className="card-body">
 
@@ -54,12 +52,7 @@ export const Servicios = () => {
                                                     <ServiceItem key={service.id} service={service} />
                                                 </div>
                                               ) )}
-											<div className="col-12">
-												<div className="sub-total-container">
-													<div className="total">Order Total: $90.00</div>
-													<a href="checkout.html" className="btn btn-success btn-lg">Checkout</a>
-												</div>
-											</div>
+											
 										</div>
 
 									</div>
