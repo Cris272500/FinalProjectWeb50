@@ -42,9 +42,6 @@ export const TicketsList = () => {
             if (value) {
                 console.log("Valor: ", value);
                 const data = await fetchTicketId(value);
-                console.log(`Ticket: ${data}`);
-                const name = data.agente_nombre;
-                console.log(`Name: ${name}`);
                 setFilteredTickets([data]);
             } else {
                 setFilteredTickets([]);
@@ -52,12 +49,17 @@ export const TicketsList = () => {
         } else if (option === "account") {
             if (value) {
                 const data = await fetchNumeroCuenta(value);
-                setFilteredTickets([data]);
+                console.log("Cuenta: ", data);
+                setFilteredTickets(data);
             } else {
                 setFilteredTickets([]);
             }
         }
     }
+
+    useEffect(() => {
+        console.log("Filtered Tickets:", filteredTickets);
+    }, [filteredTickets]);
 
     return (
         <>
