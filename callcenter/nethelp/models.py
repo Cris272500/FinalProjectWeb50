@@ -6,11 +6,11 @@ from .managers import UsuarioManager, AgenteManager
 class Usuario(AbstractUser):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, null=False, blank=False)
-    username = models.CharField(max_length=20, unique=True, null=False, blank=False)
-    numero_cuenta = models.CharField(max_length=10, unique=True, null=False, blank=False)
-    password = models.CharField(max_length=80, null=False, blank=False)
-    telefono = models.CharField(max_length=10, unique=True, null=False, blank=False)
-    direccion = models.TextField(null=False, blank=False)
+    username = models.CharField(max_length=20, unique=True)
+    numero_cuenta = models.CharField(max_length=10, unique=True)
+    password = models.CharField(max_length=80)
+    telefono = models.CharField(max_length=10, unique=True)
+    direccion = models.TextField()
     moroso = models.BooleanField(default=False)
 
     objects = UsuarioManager()
