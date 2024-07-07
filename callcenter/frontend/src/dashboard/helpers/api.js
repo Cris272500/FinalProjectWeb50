@@ -11,6 +11,22 @@ export const fetchServicios = async () => {
     return dataResponse
 }
 
+export const fetchCrearContrato = async (data) => {
+    const response = await fetch(`${API_URL}/contrato/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            ...data
+        })
+    })
+    if (!response.ok) {
+        throw new Error("Error contrato: ",response.statusText);
+    }
+} 
+
+
 export const fetchTickets = async () => {
     const response = await fetch(`${API_URL}/tickets`, {
         method: 'GET',
